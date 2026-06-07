@@ -141,3 +141,26 @@ xlabel('\omega (rad/s)');
 ylabel('|G_1(j\omega)|');
 title('Spectrum of g_1(t)');
 xlim([-200 200]);
+
+%% ===============================
+% Supplementary amplitude restoration check
+%% ===============================
+
+g1_restored = 2*g1;
+
+figure;
+plot(t, g, 'LineWidth', 1.2);
+hold on;
+plot(t, g1, '--', 'LineWidth', 1.2);
+plot(t, g1_restored, ':', 'LineWidth', 1.8);
+grid on;
+xlabel('Time t (s)');
+ylabel('Amplitude');
+title('Original g(t), Recovered g_1(t), and Amplitude-Restored 2g_1(t)');
+legend('Original g(t)', 'Recovered g_1(t)', 'Amplitude-restored 2g_1(t)');
+xlim([0 5]);
+
+mse_unscaled = mean((g - g1).^2);
+mse_restored = mean((g - g1_restored).^2);
+fprintf('MSE between g(t) and g_1(t): %.6f\n', mse_unscaled);
+fprintf('MSE between g(t) and 2g_1(t): %.6f\n', mse_restored);

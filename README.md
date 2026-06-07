@@ -56,6 +56,11 @@ Generated figures:
 - `figures/Q1_1_fig3.png`
 - `figures/Q1_1_fig4.png`
 
+![Single-sided exponential decay](figures/Q1_1_fig1.png)
+![Sinusoidal signal](figures/Q1_1_fig2.png)
+![Rectangular pulse](figures/Q1_1_fig3.png)
+![Tremolo waveform](figures/Q1_1_fig4.png)
+
 ### Experiment 1.2: Basic Signal Operations
 
 Requirements:
@@ -74,6 +79,8 @@ Solution:
 Generated figure:
 
 - `figures/Q1_2_fig1.png`
+
+![Basic operations on f(t)](figures/Q1_2_fig1.png)
 
 ### Experiment 1.3: Continuous-Time LTI System
 
@@ -101,6 +108,8 @@ Generated figure:
 
 - `figures/Q1_3_fig1.png`
 
+![Impulse response and zero-state response](figures/Q1_3_fig1.png)
+
 ### Experiment 1.4: Numerical Convolution
 
 Requirements:
@@ -127,6 +136,10 @@ Solution:
 Generated figure:
 
 - `figures/Q1_4_fig1.png`
+- `figures/Q1_4_fig2.png` supplementary reference and error comparison
+
+![Numerical convolution for different sampling intervals](figures/Q1_4_fig1.png)
+![Reference convolution and pointwise error](figures/Q1_4_fig2.png)
 
 ### Experiment 2.1: Fourier Series of Rectangular Pulses
 
@@ -152,6 +165,8 @@ Generated figure:
 
 - `figures/Q2_1_fig1.png`
 
+![Fourier series spectra of rectangular pulses](figures/Q2_1_fig1.png)
+
 ### Experiment 2.2: Frequency-Domain LTI System
 
 Requirements:
@@ -171,10 +186,15 @@ Solution:
 | `w=15` | 0.0045 | -3.0061 rad |
 
 - The system behaves like a low-pass filter because the high-frequency component at `15 rad/s` is strongly attenuated.
+- A supplementary magnitude-response figure marks `w=2` and `w=15`, making the attenuation difference visible.
 
 Generated figure:
 
 - `figures/Q2_2_fig1.png`
+- `figures/Q2_2_fig2.png` supplementary frequency-response verification
+
+![Input and output signals](figures/Q2_2_fig1.png)
+![Magnitude response with marked frequencies](figures/Q2_2_fig2.png)
 
 ### Experiment 3.1: RLC Low-Pass Filter
 
@@ -197,6 +217,9 @@ Generated figures:
 - `figures/Q3_1_fig1.png`
 - `figures/Q3_1_fig2.png`
 
+![RLC filter magnitude and phase response](figures/Q3_1_fig1.png)
+![RLC input and zero-state output](figures/Q3_1_fig2.png)
+
 ### Experiment 3.2: AM Modulation and Demodulation
 
 Requirements:
@@ -215,11 +238,17 @@ Solution:
 - Multiplying by the carrier again creates baseband terms and high-frequency terms near `240 rad/s`.
 - The low-pass filter keeps the baseband terms and removes the high-frequency terms.
 - Because `cos^2(120t)=0.5+0.5cos(240t)`, the recovered signal is scaled unless a gain correction is added.
+- A supplementary comparison plots `g(t)`, `g_1(t)`, and `2g_1(t)`. The verified MSE decreases from `3.124869` for `g_1(t)` to `0.000310` for `2g_1(t)`, confirming that the recovered waveform shape is correct and mainly needs amplitude restoration.
 
 Generated figures:
 
 - `figures/Q3_2_fig1.png`
 - `figures/Q3_2_fig2.png`
+- `figures/Q3_2_fig3.png` supplementary amplitude-restoration comparison
+
+![AM system time-domain signals](figures/Q3_2_fig1.png)
+![AM system frequency spectra](figures/Q3_2_fig2.png)
+![Original and amplitude-restored recovered signal](figures/Q3_2_fig3.png)
 
 ### Experiment 4.1: Geometric Frequency Response from Poles and Zeros
 
@@ -245,6 +274,8 @@ Generated figure:
 
 - `figures/Q4_1_fig1.png`
 
+![Pole-zero plot and geometric frequency response](figures/Q4_1_fig1.png)
+
 ### Experiment 4.2: Pole-Zero Map and Stability
 
 Requirements:
@@ -268,6 +299,8 @@ Solution:
 Generated figure:
 
 - `figures/Q4_2_fig1.png`
+
+![Pole-zero map for stability judgement](figures/Q4_2_fig1.png)
 
 ## Verification Summary
 

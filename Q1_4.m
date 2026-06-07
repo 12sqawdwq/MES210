@@ -103,3 +103,40 @@ for i = 1:length(p_values)
     fprintf('Max Error = %.6f\n\n', max_err);
 
 end
+
+%% ====================================
+% Supplementary reference comparison for p = 0.05
+%% ====================================
+
+p = 0.05;
+
+t = -2:p:2;
+
+f1 = 1.5 * double(t >= -1 & t <= 1);
+
+f2 = 2 * double(t >= -1 & t <= 1);
+
+y = conv(f1, f2) * p;
+
+ty = (min(t)+min(t)):p:(max(t)+max(t));
+
+y_ref_on_p = interp1(ty_ref, y_ref, ty, 'linear', 0);
+
+figure;
+
+subplot(2,1,1);
+plot(ty_ref, y_ref, 'k-', 'LineWidth', 1.5);
+hold on;
+plot(ty, y, 'ro', 'MarkerSize', 3);
+grid on;
+xlabel('Time t');
+ylabel('y(t)');
+title('Reference Convolution and Numerical Result for p=0.05');
+legend('Reference p=0.001', 'Numerical p=0.05');
+
+subplot(2,1,2);
+plot(ty, y - y_ref_on_p, 'LineWidth', 1.5);
+grid on;
+xlabel('Time t');
+ylabel('Error');
+title('Pointwise Error for p=0.05');
