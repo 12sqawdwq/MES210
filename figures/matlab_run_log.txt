@@ -1,0 +1,71 @@
+MES210 batch verification started at 07-Jun-2026 19:35:41
+
+Running Q1_1.m ...
+Finished Q1_1.m
+
+Running Q1_2.m ...
+Finished Q1_2.m
+
+Running Q1_3.m ...
+Transfer function numerator coefficients: [1 2]
+Transfer function denominator coefficients: [1 3 2]
+Finished Q1_3.m
+
+Running Q1_4.m ...
+Error Analysis:
+
+p = 0.200
+MSE = 0.184181
+Max Error = 0.597000
+
+p = 0.100
+MSE = 0.044849
+Max Error = 0.297000
+
+p = 0.050
+MSE = 0.010897
+Max Error = 0.147000
+
+p = 0.020
+MSE = 0.001630
+Max Error = 0.057000
+
+Finished Q1_4.m
+
+Running Q2_1.m ...
+Finished Q2_1.m
+
+Running Q2_2.m ...
+At w = 2 rad/s:
+|H(j2)| = 0.2425
+Phase = -1.3258 rad
+
+At w = 15 rad/s:
+|H(j15)| = 0.0045
+Phase = -3.0061 rad
+Finished Q2_2.m
+
+Running Q3_1.m ...
+Estimated -3 dB cutoff frequency: 3.40 rad/s
+Finished Q3_1.m
+
+Running Q3_2.m ...
+Finished Q3_2.m
+
+Running Q4_1.m ...
+Finished Q4_1.m
+
+Running Q4_2.m ...
+Zeros:
+    -3
+    -1
+
+Poles:
+  -0.3528 + 2.5822i
+  -0.3528 - 2.5822i
+  -0.2945 + 0.0000i
+
+Stability: stable because all poles lie in the left half-plane.
+Finished Q4_2.m
+
+MES210 batch verification finished at 07-Jun-2026 19:35:55
