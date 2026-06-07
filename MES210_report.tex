@@ -71,6 +71,7 @@
     \vspace{0.5cm}
 \end{titlepage}
 
+\setcounter{tocdepth}{2}
 \tableofcontents
 \newpage
 
@@ -78,9 +79,11 @@
 \addcontentsline{toc}{section}{Abstract}
 This report presents MATLAB-based solutions for the MES210TC Signals and Systems laboratory coursework. The work covers basic continuous-time signal generation, elementary signal transformations, continuous-time LTI system analysis, numerical convolution, Fourier series spectra, frequency-domain steady-state response, RLC low-pass filtering, AM modulation and demodulation, and pole-zero based frequency-response and stability analysis. The organization follows the laboratory manual requirements, while the theoretical treatment is based on standard continuous-time signals and systems theory \cite{labmanual,oppenheim}. For each task, the theoretical principle is first stated, followed by key MATLAB implementation details, result figures, and interpretation.
 
-\section{Experiment 1.1: Generation and Visualization of Basic Continuous-Time Signals}
+\section{Experiment 1: Continuous-Time Signals and Time-Domain LTI Analysis}
 
-\subsection{Problem Statement}
+\subsection{Generation and Visualization of Basic Continuous-Time Signals}
+
+\subsubsection{Problem Statement}
 The objective is to generate and plot four continuous-time signals in MATLAB:
 \begin{align}
 x_1(t)&=3e^{-2t}u(t),\\
@@ -94,7 +97,7 @@ x_4(t)&=\sin(2\pi\cdot 880t)\left[1+0.7\sin(2\pi\cdot 5t)\right].
 \end{align}
 The first three signals require clearly labelled plots. The tremolo signal must be plotted for the first 0.5 seconds, while the full 3-second signal is played by MATLAB's \texttt{sound} function.
 
-\subsection{Principle and Formula Explanation}
+\subsubsection{Principle and Formula Explanation}
 The unit step function is implemented numerically as a logical condition:
 \[
 u(t)=
@@ -105,7 +108,7 @@ u(t)=
 \]
 The rectangular pulse is similarly created with a Boolean mask over its active interval. The tremolo effect is amplitude modulation in the time domain: a high-frequency carrier is multiplied by a low-frequency modulator, producing periodic amplitude variation.
 
-\subsection{Key MATLAB Code}
+\subsubsection{Key MATLAB Code}
 \begin{matlabcode}
 t = -2:0.001:5;
 u = double(t >= 0);
@@ -124,10 +127,10 @@ modulator = 1 + 0.7*sin(2*pi*5*t);
 x4 = carrier .* modulator;
 \end{matlabcode}
 
-\subsection{Code Analysis}
+\subsubsection{Code Analysis}
 Vectorized time arrays are used to approximate continuous-time signals. Logical expressions such as \texttt{t >= 0} and \texttt{t >= 0 \& t <= 2} produce numerical masks. This avoids loops and follows normal MATLAB array-operation practice \cite{mathworksMatlab}.
 
-\subsection{Results and Interpretation}
+\subsubsection{Results and Interpretation}
 \begin{figure}[H]
     \centering
     \begin{subfigure}{0.48\textwidth}
@@ -151,9 +154,9 @@ Vectorized time arrays are used to approximate continuous-time signals. Logical 
 
 The exponential signal is zero before \(t=0\) and decays after the step activates it. The sinusoidal waveform has the expected amplitude and phase shift. The rectangular pulse is centred in the display using an adjusted axis range. The tremolo signal shows a high-frequency sinusoid whose amplitude envelope changes slowly at 5 Hz.
 
-\section{Experiment 1.2: Basic Operations on Continuous-Time Signals}
+\subsection{Basic Operations on Continuous-Time Signals}
 
-\subsection{Problem Statement}
+\subsubsection{Problem Statement}
 The given signal is
 \[
 f(t)=
@@ -165,10 +168,10 @@ t+1, & -1\leq t\leq 0,\\
 \]
 The task is to plot \(f(t)\), \(f(t-2)\), \(f(3t)\), \(f(-t)\), and \(f(-3t-2)\) over \(-3\leq t\leq 3\).
 
-\subsection{Principle and Formula Explanation}
+\subsubsection{Principle and Formula Explanation}
 A time shift is obtained by replacing \(t\) with \(t-t_0\). A time scaling \(f(at)\) compresses the signal by a factor of \(|a|\) when \(|a|>1\). A negative argument produces time reversal. The composite signal \(f(-3t-2)\) combines reversal, compression, and shifting.
 
-\subsection{Key MATLAB Code}
+\subsubsection{Key MATLAB Code}
 \begin{matlabcode}
 t = -3:0.001:3;
 f = (t+1).*(t>=-1 & t<=0) + ...
@@ -183,10 +186,10 @@ f_mix = (t_mix+1).*(t_mix>=-1 & t_mix<=0) + ...
         (1-t_mix).*(t_mix>0 & t_mix<=1);
 \end{matlabcode}
 
-\subsection{Code Analysis}
+\subsubsection{Code Analysis}
 The same piecewise definition is reused after substituting the transformed argument. This directly follows the mathematical definition of signal transformation and reduces implementation errors.
 
-\subsection{Results and Interpretation}
+\subsubsection{Results and Interpretation}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.76\textwidth]{figures/Q1_2_fig1.png}
@@ -195,9 +198,9 @@ The same piecewise definition is reused after substituting the transformed argum
 
 The plot confirms that \(f(t-2)\) shifts the signal two units to the right, \(f(3t)\) compresses it in time, and \(f(-t)\) mirrors it about the vertical axis. For \(f(-3t-2)\), the order of operations matters unless the same final algebraic argument is preserved. The relationship between \(f(3t)\) and \(f(t/3)\) is opposite in time scale: the former compresses by 3, while the latter expands by 3.
 
-\section{Experiment 1.3: Time-Domain Analysis of a Continuous-Time LTI System}
+\subsection{Time-Domain Analysis of a Continuous-Time LTI System}
 
-\subsection{Problem Statement}
+\subsubsection{Problem Statement}
 The LTI system is described by
 \[
 y''(t)+3y'(t)+2y(t)=x'(t)+2x(t),
@@ -208,7 +211,7 @@ x(t)=e^{-2t}u(t).
 \]
 The tasks are to determine the transfer-function coefficients, plot the impulse response, and plot the zero-state response.
 
-\subsection{Principle and Formula Explanation}
+\subsubsection{Principle and Formula Explanation}
 Taking the Laplace transform under zero initial conditions gives
 \[
 (s^2+3s+2)Y(s)=(s+2)X(s).
@@ -228,7 +231,7 @@ y_{zs}(t)=x(t)*h(t)=\int_0^t e^{-2\tau}e^{-(t-\tau)}\,d\tau
 =e^{-t}-e^{-2t}.
 \]
 
-\subsection{Key MATLAB Code}
+\subsubsection{Key MATLAB Code}
 \begin{matlabcode}
 num = [1 2];
 den = [1 3 2];
@@ -246,10 +249,10 @@ else
 end
 \end{matlabcode}
 
-\subsection{Code Analysis}
+\subsubsection{Code Analysis}
 The coefficient vectors are \(\texttt{num=[1 2]}\) and \(\texttt{den=[1 3 2]}\). The implementation calls the required Control System Toolbox functions when available. Since the verified local environment does not include that toolbox, an analytical fallback is used to preserve the same mathematical result.
 
-\subsection{Results and Interpretation}
+\subsubsection{Results and Interpretation}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.74\textwidth]{figures/Q1_3_fig1.png}
@@ -258,9 +261,9 @@ The coefficient vectors are \(\texttt{num=[1 2]}\) and \(\texttt{den=[1 3 2]}\).
 
 The impulse response decays exponentially, indicating a stable first-order effective system. The zero-state response initially rises from zero and then decays because the input and impulse response are both causal exponentials.
 
-\section{Experiment 1.4: Numerical Convolution of Continuous-Time Signals}
+\subsection{Numerical Convolution of Continuous-Time Signals}
 
-\subsection{Problem Statement}
+\subsubsection{Problem Statement}
 The signals are
 \[
 f_1(t)=
@@ -277,7 +280,7 @@ f_2(t)=
 \]
 The task is to compute \(y(t)=f_1(t)*f_2(t)\) numerically using different sampling intervals and evaluate the error relative to a fine reference result.
 
-\subsection{Principle and Formula Explanation}
+\subsubsection{Principle and Formula Explanation}
 Continuous convolution is defined as
 \[
 y(t)=\int_{-\infty}^{\infty}f_1(\tau)f_2(t-\tau)\,d\tau.
@@ -288,7 +291,7 @@ y[n]\approx p\sum_k f_1[k]f_2[n-k].
 \]
 The factor \(p\) is required because MATLAB's \texttt{conv} computes a summation, whereas the continuous convolution is an integral \cite{mathworksConv}.
 
-\subsection{Key MATLAB Code}
+\subsubsection{Key MATLAB Code}
 \begin{matlabcode}
 p_values = [0.2 0.1 0.05 0.02];
 for i = 1:length(p_values)
@@ -301,10 +304,10 @@ for i = 1:length(p_values)
 end
 \end{matlabcode}
 
-\subsection{Code Analysis}
+\subsubsection{Code Analysis}
 The output time vector spans the sum of the input supports. Interpolation is used to compare coarser results with the fine reference grid at \(p=0.001\).
 
-\subsection{Results, Numerical Analysis, and Interpretation}
+\subsubsection{Results, Numerical Analysis, and Interpretation}
 \begin{figure}[H]
     \centering
     \begin{subfigure}{0.48\textwidth}
@@ -335,12 +338,14 @@ Sampling interval \(p\) & MSE & Maximum absolute error\\
 
 As \(p\) decreases, the approximation becomes smoother and closer to the reference triangular convolution. If \(p\) is too large, the rectangular pulses are poorly sampled, causing inaccurate overlap estimation and larger numerical error.
 
-\section{Experiment 2.1: Fourier Series Analysis of Periodic Rectangular Pulses}
+\section{Experiment 2: Fourier and Frequency-Domain Analysis}
 
-\subsection{Problem Statement}
+\subsection{Fourier Series Analysis of Periodic Rectangular Pulses}
+
+\subsubsection{Problem Statement}
 For periodic rectangular pulses with period \(T=8\) and widths \(\tau=4,2,1\), compute and plot the magnitude spectra \(|c_k|\) for \(k=-20,\ldots,20\).
 
-\subsection{Principle and Formula Explanation}
+\subsubsection{Principle and Formula Explanation}
 The exponential Fourier series coefficients are
 \[
 c_k=\frac{\tau}{T}\operatorname{sinc}\left(\frac{k\tau}{T}\right),
@@ -352,7 +357,7 @@ The DC component is
 c_0=\frac{\tau}{T}.
 \]
 
-\subsection{Key MATLAB Code}
+\subsubsection{Key MATLAB Code}
 \begin{matlabcode}
 T = 8;
 tau_values = [4 2 1];
@@ -364,10 +369,10 @@ for i = 1:length(tau_values)
 end
 \end{matlabcode}
 
-\subsection{Code Analysis}
+\subsubsection{Code Analysis}
 MATLAB's normalized \texttt{sinc} function matches the coursework definition. Each value of \(\tau\) changes the coefficient envelope but not the spacing of the integer harmonic index \(k\).
 
-\subsection{Results and Interpretation}
+\subsubsection{Results and Interpretation}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.78\textwidth]{figures/Q2_1_fig1.png}
@@ -376,9 +381,9 @@ MATLAB's normalized \texttt{sinc} function matches the coursework definition. Ea
 
 When the pulse width decreases, the main lobe in the frequency-domain envelope becomes wider. The spacing between spectral lines is controlled by the period \(T\), so it remains unchanged. The DC component decreases from \(4/8\) to \(2/8\) and \(1/8\), consistent with the duty cycle.
 
-\section{Experiment 2.2: Frequency-Domain Analysis of a Continuous-Time LTI System}
+\subsection{Frequency-Domain Analysis of a Continuous-Time LTI System}
 
-\subsection{Problem Statement}
+\subsubsection{Problem Statement}
 The system has frequency response
 \[
 H(j\omega)=\frac{1}{(j\omega)^2+2j\omega+5}.
@@ -389,7 +394,7 @@ x(t)=3\cos(2t)+2\cos(15t).
 \]
 The task is to evaluate the magnitude and phase response at \(\omega=2\) and \(\omega=15\), then construct and plot the output.
 
-\subsection{Principle and Formula Explanation}
+\subsubsection{Principle and Formula Explanation}
 For an LTI system, a sinusoid at frequency \(\omega_0\) remains a sinusoid at the same frequency, but its amplitude and phase are modified:
 \[
 A\cos(\omega_0t)\rightarrow A|H(j\omega_0)|\cos(\omega_0t+\angle H(j\omega_0)).
@@ -400,7 +405,7 @@ y(t)=3|H(j2)|\cos(2t+\angle H(j2))
 +2|H(j15)|\cos(15t+\angle H(j15)).
 \]
 
-\subsection{Key MATLAB Code}
+\subsubsection{Key MATLAB Code}
 \begin{matlabcode}
 H = @(w) 1 ./ ((1i*w).^2 + 2*1i*w + 5);
 H2 = H(2); H15 = H(15);
@@ -408,7 +413,7 @@ y = 3*abs(H2)*cos(2*t + angle(H2)) + ...
     2*abs(H15)*cos(15*t + angle(H15));
 \end{matlabcode}
 
-\subsection{Results, Numerical Values, and Interpretation}
+\subsubsection{Results, Numerical Values, and Interpretation}
 \begin{figure}[H]
     \centering
     \begin{subfigure}{0.48\textwidth}
@@ -437,9 +442,11 @@ Frequency & Magnitude & Phase\\
 
 The component at \(15\) rad/s is strongly attenuated compared with the component at \(2\) rad/s. Therefore, the system behaves approximately as a low-pass filter.
 
-\section{Experiment 3.1: RLC Second-Order Low-Pass Filter}
+\section{Experiment 3: RLC Filtering and AM System Simulation}
 
-\subsection{Problem Statement}
+\subsection{RLC Second-Order Low-Pass Filter}
+
+\subsubsection{Problem Statement}
 For an RLC low-pass filter with \(L=0.6\) H, \(C=0.2\) F, and \(R=2\,\Omega\),
 \[
 H(s)=\frac{1}{LCs^2+RCs+1}.
@@ -449,14 +456,14 @@ The tasks are to plot magnitude and phase responses using \texttt{freqs} and com
 x(t)=\sin(t)+\sin(20t).
 \]
 
-\subsection{Principle and Formula Explanation}
+\subsubsection{Principle and Formula Explanation}
 With the given component values,
 \[
 H(s)=\frac{1}{0.12s^2+0.4s+1}.
 \]
 Low-frequency components pass with relatively high gain, while high-frequency components are attenuated because the \(s^2\) term dominates the denominator at high \(\omega\).
 
-\subsection{Key MATLAB Code}
+\subsubsection{Key MATLAB Code}
 \begin{matlabcode}
 L = 0.6; C = 0.2; R = 2;
 num = [1];
@@ -465,14 +472,14 @@ w = 0:0.01:20;
 H = freqs(num, den, w);
 \end{matlabcode}
 
-\subsection{Code Analysis}
+\subsubsection{Code Analysis}
 The \texttt{freqs} function evaluates the analog frequency response. If \texttt{lsim} is unavailable, the equivalent differential equation
 \[
 0.12y''(t)+0.4y'(t)+y(t)=x(t)
 \]
 is solved numerically under zero initial conditions.
 
-\subsection{Results and Interpretation}
+\subsubsection{Results and Interpretation}
 \begin{figure}[H]
     \centering
     \begin{subfigure}{0.48\textwidth}
@@ -488,9 +495,9 @@ is solved numerically under zero initial conditions.
 
 The estimated \(-3\) dB cutoff frequency is approximately \(3.40\) rad/s. Therefore, the \(\sin(20t)\) component is attenuated much more than \(\sin(t)\). Increasing \(R\) would increase damping, reduce resonance, and smooth the transition of the response.
 
-\section{Experiment 3.2: AM Modulation, Coherent Demodulation, and Low-Pass Filtering}
+\subsection{AM Modulation, Coherent Demodulation, and Low-Pass Filtering}
 
-\subsection{Problem Statement}
+\subsubsection{Problem Statement}
 The baseband signal and carrier are
 \[
 g(t)=4\cos(8t)+3\cos(16t),\quad c(t)=\cos(120t).
@@ -501,7 +508,7 @@ f(t)=g(t)c(t),\quad g_0(t)=f(t)c(t).
 \]
 An ideal low-pass filter with cutoff \(|\omega|<25\) is used to recover \(g_1(t)\).
 
-\subsection{Principle and Formula Explanation}
+\subsubsection{Principle and Formula Explanation}
 Using the identity
 \[
 \cos a\cos b=\frac{1}{2}\left[\cos(a+b)+\cos(a-b)\right],
@@ -517,7 +524,7 @@ g_1(t)\approx \frac{1}{2}g(t).
 \]
 Therefore, amplitude restoration requires multiplication by 2.
 
-\subsection{Key MATLAB Code}
+\subsubsection{Key MATLAB Code}
 \begin{matlabcode}
 g = 4*cos(8*t) + 3*cos(16*t);
 c = cos(120*t);
@@ -531,10 +538,10 @@ g1 = real(ifft(ifftshift(G1_shift)));
 g1_restored = 2*g1;
 \end{matlabcode}
 
-\subsection{Code Analysis}
+\subsubsection{Code Analysis}
 FFT and \texttt{fftshift} are used to implement an ideal frequency-domain low-pass filter \cite{mathworksFFT}. The cutoff keeps the baseband frequencies at 8 and 16 rad/s and rejects the components near 240 rad/s.
 
-\subsection{Results, Numerical Analysis, and Interpretation}
+\subsubsection{Results, Numerical Analysis, and Interpretation}
 \begin{figure}[H]
     \centering
     \begin{subfigure}{0.48\textwidth}
@@ -554,9 +561,11 @@ FFT and \texttt{fftshift} are used to implement an ideal frequency-domain low-pa
 
 The verified mean-squared error between \(g(t)\) and \(g_1(t)\) is 3.124869. After amplitude restoration, the MSE between \(g(t)\) and \(2g_1(t)\) decreases to 0.000310. This confirms that the recovered waveform shape is correct, while the main difference is the expected factor of one half from coherent demodulation.
 
-\section{Experiment 4.1: Geometric Evaluation of Frequency Response from Pole-Zero Plot}
+\section{Experiment 4: Pole-Zero and Geometric Frequency-Response Analysis}
 
-\subsection{Problem Statement}
+\subsection{Geometric Evaluation of Frequency Response from Pole-Zero Plot}
+
+\subsubsection{Problem Statement}
 The system has poles
 \[
 p_1=-80,\quad p_2=-120
@@ -574,10 +583,10 @@ For \(f=0\) to \(1000\) Hz, compute
 \]
 The result must be compared with MATLAB's \texttt{freqs} function.
 
-\subsection{Principle and Formula Explanation}
+\subsubsection{Principle and Formula Explanation}
 The geometric method evaluates frequency response by measuring vector lengths in the \(s\)-plane from each zero and pole to the point \(j\omega\). Zeros contribute to the numerator and poles contribute to the denominator. A double zero at the origin makes low-frequency gain small, which is characteristic of high-pass behaviour.
 
-\subsection{Key MATLAB Code}
+\subsubsection{Key MATLAB Code}
 \begin{matlabcode}
 f = 0:1:1000;
 omega = 2*pi*f;
@@ -589,7 +598,7 @@ den_tf = conv([1 80], [1 120]);
 H_freqs = freqs(num_tf, den_tf, omega);
 \end{matlabcode}
 
-\subsection{Results and Interpretation}
+\subsubsection{Results and Interpretation}
 \begin{figure}[H]
     \centering
     \begin{subfigure}{0.48\textwidth}
@@ -610,16 +619,16 @@ The geometric result and the \texttt{freqs} result overlap, verifying the comput
 \]
 The response rises with frequency because the double zero at the origin suppresses low-frequency gain.
 
-\section{Experiment 4.2: Pole-Zero Map and Stability}
+\subsection{Pole-Zero Map and Stability}
 
-\subsection{Problem Statement}
+\subsubsection{Problem Statement}
 For the system
 \[
 H(s)=\frac{s^2+4s+3}{s^3+s^2+7s+2},
 \]
 plot the pole-zero map and determine whether the system is stable.
 
-\subsection{Principle and Formula Explanation}
+\subsubsection{Principle and Formula Explanation}
 The zeros are roots of the numerator and the poles are roots of the denominator. A continuous-time LTI system is BIBO stable if all poles lie in the open left half-plane:
 \[
 \operatorname{Re}(p_i)<0,\quad \forall i.
@@ -629,7 +638,7 @@ Pole locations also indicate damping and oscillatory characteristics. For a comp
 \omega_n=|p|,\quad \zeta=-\frac{\sigma}{\omega_n}.
 \]
 
-\subsection{Key MATLAB Code}
+\subsubsection{Key MATLAB Code}
 \begin{matlabcode}
 num = [1 4 3];
 den = [1 1 7 2];
@@ -641,7 +650,7 @@ if all(real(p) < 0)
 end
 \end{matlabcode}
 
-\subsection{Results, Numerical Analysis, and Interpretation}
+\subsubsection{Results, Numerical Analysis, and Interpretation}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.78\textwidth]{figures/Q4_2_fig1.png}
