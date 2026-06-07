@@ -269,12 +269,15 @@ Solution:
 - The double zero at the origin forces low-frequency gain to start near zero.
 - As frequency increases, the numerator grows faster at first, so the response rises and approaches high-pass behavior.
 - The `freqs()` curve is overlaid with the geometric result for verification.
+- A supplementary geometric-distance figure marks one point `jw0` and draws the distance vectors from that point to the double zero and both poles, directly illustrating the magnitude formula.
 
 Generated figure:
 
 - `figures/Q4_1_fig1.png`
+- `figures/Q4_1_fig2.png` supplementary geometric distance illustration
 
 ![Pole-zero plot and geometric frequency response](figures/Q4_1_fig1.png)
+![Geometric distance illustration](figures/Q4_1_fig2.png)
 
 ### Experiment 4.2: Pole-Zero Map and Stability
 

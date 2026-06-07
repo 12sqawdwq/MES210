@@ -27,8 +27,8 @@ hold on;
 % figure remains available without Control System Toolbox.
 zeta_values = [0.08 0.16 0.25 0.36 0.48 0.62 0.78 0.92];
 wn_values = 1:4;
-xlim_values = [-3.3 1.8];
-ylim_values = [-4.8 4.8];
+xlim_values = [-3.4 2.2];
+ylim_values = [-5.2 5.2];
 
 for i = 1:length(zeta_values)
     zeta = zeta_values(i);
@@ -72,10 +72,13 @@ for i = 1:length(z)
         real(z(i)), abs(real(z(i))));
 
     if real(z(i)) < -2
-        text_pos = [real(z(i))+0.10, imag(z(i))+0.45];
+        text_pos = [-3.25, -1.80];
     else
-        text_pos = [real(z(i))-0.95, imag(z(i))+1.05];
+        text_pos = [-2.05, -3.35];
     end
+
+    plot([real(z(i)) text_pos(1)+0.12], [imag(z(i)) text_pos(2)+0.35], ...
+        '-', 'Color', [0.55 0.55 0.55], 'LineWidth', 0.8, 'HandleVisibility', 'off');
 
     text(text_pos(1), text_pos(2), info, ...
         'FontSize', 7.5, 'BackgroundColor', 'w', 'EdgeColor', [0.65 0.65 0.65], ...
@@ -107,14 +110,17 @@ for i = 1:length(p)
         pole_label, zeta, overshoot, wn);
 
     if omega_d > 0
-        offset = [0.25 0.70];
+        text_pos = [0.65 3.25];
     elseif omega_d < 0
-        offset = [0.25 -1.35];
+        text_pos = [0.65 -4.55];
     else
-        offset = [0.35 0.30];
+        text_pos = [0.75 -0.95];
     end
 
-    text(real(p(i))+offset(1), imag(p(i))+offset(2), info, ...
+    plot([real(p(i)) text_pos(1)+0.08], [imag(p(i)) text_pos(2)+0.35], ...
+        '-', 'Color', [0.45 0.70 1.00], 'LineWidth', 0.8, 'HandleVisibility', 'off');
+
+    text(text_pos(1), text_pos(2), info, ...
         'FontSize', 7.5, 'BackgroundColor', 'w', 'EdgeColor', [0.45 0.70 1.00], ...
         'Margin', 4, 'Interpreter', 'none', 'HandleVisibility', 'off');
 end
