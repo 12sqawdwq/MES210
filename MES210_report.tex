@@ -76,7 +76,7 @@
 
 \section*{Abstract}
 \addcontentsline{toc}{section}{Abstract}
-This report presents MATLAB-based solutions for the MES210TC Signals and Systems laboratory coursework. The work covers basic continuous-time signal generation, elementary signal transformations, continuous-time LTI system analysis, numerical convolution, Fourier series spectra, frequency-domain steady-state response, RLC low-pass filtering, AM modulation and demodulation, and pole-zero based frequency-response and stability analysis. For each task, the theoretical principle is first stated, followed by key MATLAB implementation details, result figures, and interpretation. The results verify the expected relationships between time-domain operations and waveform changes, convolution accuracy and sampling interval, pulse width and spectral bandwidth, frequency response and sinusoidal attenuation, modulation and frequency translation, and pole locations and system stability.
+This report presents MATLAB-based solutions for the MES210TC Signals and Systems laboratory coursework. The work covers basic continuous-time signal generation, elementary signal transformations, continuous-time LTI system analysis, numerical convolution, Fourier series spectra, frequency-domain steady-state response, RLC low-pass filtering, AM modulation and demodulation, and pole-zero based frequency-response and stability analysis. The organization follows the laboratory manual requirements, while the theoretical treatment is based on standard continuous-time signals and systems theory \cite{labmanual,oppenheim}. For each task, the theoretical principle is first stated, followed by key MATLAB implementation details, result figures, and interpretation.
 
 \section{Experiment 1.1: Generation and Visualization of Basic Continuous-Time Signals}
 
@@ -125,7 +125,7 @@ x4 = carrier .* modulator;
 \end{matlabcode}
 
 \subsection{Code Analysis}
-Vectorized time arrays are used to approximate continuous-time signals. Logical expressions such as \texttt{t >= 0} and \texttt{t >= 0 \& t <= 2} produce numerical masks. This avoids loops and keeps the MATLAB implementation concise and mathematically transparent.
+Vectorized time arrays are used to approximate continuous-time signals. Logical expressions such as \texttt{t >= 0} and \texttt{t >= 0 \& t <= 2} produce numerical masks. This avoids loops and follows normal MATLAB array-operation practice \cite{mathworksMatlab}.
 
 \subsection{Results and Interpretation}
 \begin{figure}[H]
@@ -286,7 +286,7 @@ The discrete approximation with sampling interval \(p\) is
 \[
 y[n]\approx p\sum_k f_1[k]f_2[n-k].
 \]
-The factor \(p\) is required because MATLAB's \texttt{conv} computes a summation, whereas the continuous convolution is an integral.
+The factor \(p\) is required because MATLAB's \texttt{conv} computes a summation, whereas the continuous convolution is an integral \cite{mathworksConv}.
 
 \subsection{Key MATLAB Code}
 \begin{matlabcode}
@@ -532,7 +532,7 @@ g1_restored = 2*g1;
 \end{matlabcode}
 
 \subsection{Code Analysis}
-FFT and \texttt{fftshift} are used to implement an ideal frequency-domain low-pass filter. The cutoff keeps the baseband frequencies at 8 and 16 rad/s and rejects the components near 240 rad/s.
+FFT and \texttt{fftshift} are used to implement an ideal frequency-domain low-pass filter \cite{mathworksFFT}. The cutoff keeps the baseband frequencies at 8 and 16 rad/s and rejects the components near 240 rad/s.
 
 \subsection{Results, Numerical Analysis, and Interpretation}
 \begin{figure}[H]
@@ -603,7 +603,7 @@ H_freqs = freqs(num_tf, den_tf, omega);
     \caption{Geometric frequency-response evaluation.}
 \end{figure}
 
-The geometric result and the \texttt{freqs} result overlap, verifying the computation. The supplementary illustration at \(f_0=10\) Hz shows the distance vectors directly. At that point,
+The geometric result and the \texttt{freqs} result overlap, verifying the computation with MATLAB's analog frequency-response evaluation \cite{mathworksFreqs}. The supplementary illustration at \(f_0=10\) Hz shows the distance vectors directly. At that point,
 \[
 |H(j\omega_0)|=
 \frac{62.83^2}{101.72\times 135.45}=0.2865.
@@ -662,5 +662,30 @@ Numerical convolution results show that the sampling interval strongly affects a
 The RLC circuit behaves as a low-pass filter with an estimated cutoff near \(3.40\) rad/s, attenuating the \(20\) rad/s component more strongly than the \(1\) rad/s component. The AM experiment confirms frequency translation during modulation and demonstrates that coherent demodulation followed by ideal low-pass filtering recovers a half-amplitude baseband signal. Multiplication by 2 restores the amplitude, reducing the MSE from 3.124869 to 0.000310. Finally, pole-zero analysis demonstrates both geometric frequency-response evaluation and stability assessment. The Experiment 4.1 geometric method agrees with \texttt{freqs}, and the Experiment 4.2 pole-zero map confirms stability because all poles are in the left half-plane.
 
 Overall, the MATLAB simulations and analytical calculations are mutually consistent. The generated figures and numerical results support the theoretical expectations for each experiment and provide a complete verification of the coursework requirements.
+
+\begin{thebibliography}{9}
+
+\bibitem{labmanual}
+Xi'an Jiaotong-Liverpool University, \textit{MES210TC Continuous and Discrete Time Signals and Systems Laboratory Manual}, Academic Year 2025--2026.
+
+\bibitem{oppenheim}
+A. V. Oppenheim, A. S. Willsky, and S. H. Nawab, \textit{Signals and Systems}, 2nd ed. Upper Saddle River, NJ: Prentice Hall, 1997.
+
+\bibitem{lathi}
+B. P. Lathi and R. A. Green, \textit{Linear Systems and Signals}, 3rd ed. Oxford, UK: Oxford University Press, 2018.
+
+\bibitem{mathworksMatlab}
+MathWorks, \textit{MATLAB Documentation: Matrix and Array Operations}. Available: \url{https://www.mathworks.com/help/matlab/matrices-and-arrays.html}
+
+\bibitem{mathworksConv}
+MathWorks, \textit{conv: Convolution and Polynomial Multiplication}. Available: \url{https://www.mathworks.com/help/matlab/ref/conv.html}
+
+\bibitem{mathworksFFT}
+MathWorks, \textit{fft: Fast Fourier Transform}. Available: \url{https://www.mathworks.com/help/matlab/ref/fft.html}
+
+\bibitem{mathworksFreqs}
+MathWorks, \textit{freqs: Frequency Response of Analog Filter}. Available: \url{https://www.mathworks.com/help/signal/ref/freqs.html}
+
+\end{thebibliography}
 
 \end{document}
