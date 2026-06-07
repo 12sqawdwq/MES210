@@ -12,6 +12,8 @@ run('run_all.m')
 
 The batch runner disables the tremolo audio playback during automated verification and saves all outputs to `figures/` as both `.png` and `.fig` files. The verification log is saved as `figures/matlab_run_log.txt`.
 
+The formal LaTeX coursework report is available as `MES210_report.tex`, with the compiled PDF at `MES210_report.pdf`.
+
 Verified locally with MATLAB R2024a on 7 June 2026. The local MATLAB installation includes Signal Processing Toolbox but not Control System Toolbox, so scripts that are required by the manual to use `impulse`, `lsim`, or `pzmap` call those functions when available and otherwise use equivalent analytical or numerical fallback methods.
 
 ## File Structure
