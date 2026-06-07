@@ -287,6 +287,7 @@ Solution:
 
 - `Q4_2.m` computes zeros and poles with `roots`.
 - If Control System Toolbox is available, it uses `pzmap`; otherwise it plots the same pole-zero map manually.
+- The plotted pole-zero map includes damping-ratio rays, natural-frequency arcs, and annotation boxes for damping ratio, overshoot, and natural frequency. This makes the stability judgement and pole dynamics easier to read directly from the figure.
 - Verified poles:
 
 ```text
